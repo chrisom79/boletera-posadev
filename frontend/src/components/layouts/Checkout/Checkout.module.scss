@@ -1,7 +1,8 @@
 @use "../../../styles/mixins";
 
-$font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-$font-body:  'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// Posadev 2026 — retro / pixel theme
+$font-display: 'Pixelify Sans', monospace;
+$font-body:  'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
 .container {
   display: flex;
@@ -56,7 +57,7 @@ $font-body:  'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     .header {
       height: 60px;
       background-color: var(--checkout-surface);
-      border-bottom: 1px solid var(--checkout-border);
+      border-bottom: 2px solid var(--checkout-border);
       display: flex;
       justify-content: center;
       align-items: center;

@@ -1,14 +1,27 @@
 @use "../../../styles/mixins.scss";
 
-// Design tokens
-$font-display: var(--theme-font-family, 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-$font-body:  var(--theme-font-family, 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+// Posadev 2026 — retro / pixel theme
+$font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-body:  'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-pixel: 'Pixelify Sans', monospace;
+$font-tag: 'Press Start 2P', monospace;
 
-$radius-xl: 28px;
-$radius-lg: 20px;
-$radius-md: 14px;
-$radius-sm: 10px;
-$radius-xs: 6px;
+// Posadev palette
+$pink: #ff0a55;
+$pink-2: #ff3d76;
+$xmas-green: #0e5c3a;
+$paper: #fef6e8;
+$ink: #0a0a0a;
+$ink-2: #2a2a2a;
+$win-shadow: 6px 6px 0 $ink;
+$win-shadow-sm: 3px 3px 0 $ink;
+
+// Retro theme uses hard edges (no rounding)
+$radius-xl: 0;
+$radius-lg: 0;
+$radius-md: 0;
+$radius-sm: 0;
+$radius-xs: 0;
 
 $transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-medium: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,6 +32,7 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: fixed;
   width: 100%;
   height: 100%;
+  background-color: $xmas-green !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -67,6 +81,7 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 // Main page wrapper
 .pageWrapper {
   min-height: 100vh;
+  background-color: $xmas-green;
   --background-overlay: #{rgba(white, 0.5)};
 
   &[data-mode="dark"] {
@@ -78,17 +93,17 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 100vh;
   font-family: $font-body;
 
-  // Theme variables from EventHomepage component
-  --primary-color: var(--event-primary-color);
-  --primary-text-color: var(--event-primary-text-color);
-  --secondary-color: var(--event-secondary-color);
-  --secondary-text-color: var(--event-secondary-text-color);
-  --bg-color: var(--event-bg-color);
-  --content-bg-color: var(--event-content-bg-color);
-  --accent-contrast: var(--event-accent-contrast);
-  --accent-soft: var(--event-accent-soft);
-  --accent-muted: var(--event-accent-muted);
-  --border-color: var(--event-border-color);
+  // Posadev 2026 — locked retro palette (overrides per-event theme settings)
+  --primary-color: #{$pink};
+  --primary-text-color: #{$ink};
+  --secondary-color: #{$ink-2};
+  --secondary-text-color: #{$ink-2};
+  --bg-color: #{$xmas-green};
+  --content-bg-color: #{$paper};
+  --accent-contrast: #{$paper};
+  --accent-soft: rgba(255, 10, 85, 0.1);
+  --accent-muted: #{$pink-2};
+  --border-color: #{$ink};
 }
 
 .wrapper {
@@ -105,11 +120,8 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 .mainCard {
   background-color: var(--content-bg-color);
   border-radius: $radius-xl;
-  border: 1px solid var(--border-color);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 20px 40px -5px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--border-color);
+  box-shadow: $win-shadow;
   overflow: hidden;
   margin-bottom: 16px;
   animation: fadeInUp 0.5s ease-out backwards;
@@ -206,19 +218,19 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px);
+  background: $ink;
+  border: 2px solid $ink;
   border-radius: $radius-sm;
-  padding: 8px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  font-family: $font-tag;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $paper;
 
   svg {
     width: 0.7rem;
     height: 0.7rem;
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
   }
 }
 
@@ -319,11 +331,11 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .eventTitle {
-  font-family: $font-display;
+  font-family: $font-pixel;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--primary-text-color);
   margin: 0 0 20px;
 }
@@ -450,8 +462,8 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sectionTitle {
-  font-family: $font-display;
-  font-size: 1.35rem;
+  font-family: $font-pixel;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--primary-text-color);
@@ -686,8 +698,8 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(.hi-product-category-title) {
-    font-family: $font-display;
-    font-size: 1.35rem;
+    font-family: $font-pixel;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--primary-text-color);
@@ -712,15 +724,16 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--content-bg-color);
     border-radius: $radius-lg;
     border: 2px solid var(--border-color);
+    box-shadow: $win-shadow-sm;
     padding: 0;
-    transition: all $transition-fast;
+    transition: transform $transition-fast, box-shadow $transition-fast;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 
     &:hover {
-      border-color: color-mix(in srgb, var(--border-color) 150%, transparent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--border-color);
     }
   }
 
@@ -737,11 +750,12 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   :global(.hi-product-highlight-message) {
     background: var(--primary-color);
     color: var(--accent-contrast);
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 6px 16px;
+    font-family: $font-tag;
+    font-size: 9px;
+    padding: 8px 16px;
     text-align: center;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   :global(.hi-product-row.selected) {
@@ -818,10 +832,10 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(.hi-price-tier-price) {
-    font-family: $font-display;
+    font-family: $font-pixel;
     font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--primary-text-color);
+    font-size: 1.25rem;
+    color: var(--primary-color);
   }
 
   :global(.hi-product-quantity-selector) {
@@ -924,19 +938,20 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--primary-color) !important;
     background-color: var(--primary-color) !important;
     color: var(--accent-contrast) !important;
-    border: none !important;
+    border: 2px solid #{$ink} !important;
     border-radius: $radius-md !important;
+    box-shadow: $win-shadow-sm;
     font-family: $font-display;
     font-size: 1rem !important;
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 600 !important;
+    text-transform: none;
+    letter-spacing: 0.02em;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: all $transition-fast;
+    transition: transform $transition-fast, box-shadow $transition-fast;
 
     // Override Mantine button internals
     :global(.mantine-Button-label) {
@@ -944,9 +959,8 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px var(--accent-soft);
-      filter: brightness(1.1);
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 #{$ink};
       background: var(--primary-color) !important;
       background-color: var(--primary-color) !important;
     }
@@ -991,13 +1005,15 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   :global(.hi-apply-promo-code-button) {
     background: var(--primary-color);
     color: var(--accent-contrast);
-    border: none;
+    border: 2px solid var(--border-color);
     border-radius: $radius-sm;
+    box-shadow: $win-shadow-sm;
     font-weight: 600;
     padding: 10px 20px;
 
     &:hover {
-      filter: brightness(1.1);
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--border-color);
     }
   }
 

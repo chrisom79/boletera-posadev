@@ -20,3 +20,23 @@ prompts/
 
 /plans/**
 /plans
+
+# Env files — jamás en Git
+.env
+.env.local
+.env.production
+docker/all-in-one/.env
+
+# Node/PHP artifacts
+node_modules/
+vendor/
+storage/logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local overrides
+docker-compose.override.yml
