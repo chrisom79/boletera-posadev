@@ -11,13 +11,16 @@ interface CheckoutThemeProviderProps {
  * Fixed color palettes for checkout - these ensure good contrast and readability.
  * Users can only customize accent color, not the base palette.
  */
+// Posadev 2026 — retro/pixel checkout palette (paper surface, xmas-green background)
+const POSADEV_ACCENT = '#ff0a55';
+
 const LIGHT_PALETTE = {
-    surface: '#ffffff',
-    background: '#f8f9fa',
-    textPrimary: '#1a1a1a',
-    textSecondary: '#525252',
-    textTertiary: '#737373',
-    border: '#e5e7eb',
+    surface: '#fef6e8',
+    background: '#0e5c3a',
+    textPrimary: '#0a0a0a',
+    textSecondary: '#2a2a2a',
+    textTertiary: '#2a2a2a',
+    border: '#0a0a0a',
 };
 
 const DARK_PALETTE = {
@@ -77,6 +80,7 @@ function createCheckoutTheme(accentColor: string, mode: 'light' | 'dark'): Manti
 
     return {
         primaryColor: 'primary',
+        defaultRadius: 0,
         colors: {
             primary: primaryColors,
         },
@@ -181,25 +185,25 @@ function createCSSVariablesResolver(accentColor: string, mode: 'light' | 'dark')
  * - This ensures readability and accessibility regardless of user choices
  */
 export const CheckoutThemeProvider = ({
-    accentColor,
-    mode,
     children,
 }: PropsWithChildren<CheckoutThemeProviderProps>) => {
+    // Posadev 2026 — the checkout theme is locked to the retro palette regardless
+    // of per-event settings, so accentColor/mode props are intentionally ignored.
     const theme = useMemo(
-        () => createCheckoutTheme(accentColor, mode),
-        [accentColor, mode]
+        () => createCheckoutTheme(POSADEV_ACCENT, 'light'),
+        []
     );
 
     const cssVariablesResolver = useMemo(
-        () => createCSSVariablesResolver(accentColor, mode),
-        [accentColor, mode]
+        () => createCSSVariablesResolver(POSADEV_ACCENT, 'light'),
+        []
     );
 
     return (
         <MantineProvider
             theme={theme}
             cssVariablesResolver={cssVariablesResolver}
-            forceColorScheme={mode}
+            forceColorScheme="light"
         >
             {children}
         </MantineProvider>
