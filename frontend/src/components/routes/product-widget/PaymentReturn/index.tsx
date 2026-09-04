@@ -72,9 +72,21 @@ export const PaymentReturn = () => {
                 trackEvent(AnalyticsEvents.PURCHASE_COMPLETED_PAID, { value: totalCents });
             }
             navigate(eventCheckoutPath(eventId, orderShortId, 'summary'));
+            return;
         }
-        if (order?.payment_status === 'PAYMENT_FAILED' || (typeof window !== 'undefined' && window?.location.search.includes('failed'))) {
+
+        if (typeof window !== 'undefined' && window?.location.search.includes('failed')) {
             navigate(eventCheckoutPath(eventId, orderShortId, 'payment') + '?payment_failed=true');
+            return;
+        }
+
+        // A payment_intent.succeeded webhook for a retried payment on the same PaymentIntent can
+        // still be in flight when this poll observes PAYMENT_FAILED, so don't treat it as final.
+        // Confirm directly against Stripe first (this also self-heals the order server-side if it
+        // actually succeeded) before sending the customer to the failure screen.
+        if (order?.payment_status === 'PAYMENT_FAILED' && !attemptManualConfirmation) {
+            setShouldPoll(false);
+            setAttemptManualConfirmation(true);
         }
     }, [order]);
 
