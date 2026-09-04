@@ -13,6 +13,7 @@ use HiEvents\Repository\Eloquent\Value\Relationship;
 use HiEvents\Repository\Interfaces\OrderRepositoryInterface;
 use HiEvents\Services\Domain\Payment\Stripe\StripePaymentUpdateFromPaymentIntentService;
 use Illuminate\Database\DatabaseManager;
+use Psr\Log\LoggerInterface;
 use Stripe\PaymentIntent;
 use Throwable;
 
@@ -23,6 +24,7 @@ readonly class PaymentIntentFailedHandler
         private StripePaymentsRepository                    $stripePaymentsRepository,
         private DatabaseManager                             $databaseManager,
         private StripePaymentUpdateFromPaymentIntentService $stripePaymentUpdateFromPaymentIntentService,
+        private LoggerInterface                             $logger,
     )
     {
     }
@@ -39,6 +41,19 @@ readonly class PaymentIntentFailedHandler
                 ->findFirstWhere([
                     StripePaymentDomainObjectAbstract::PAYMENT_INTENT_ID => $paymentIntent->id,
                 ]);
+
+            // A later payment_intent.succeeded webhook can be processed before this failed event
+            // (Stripe does not guarantee webhook delivery order, and this app processes them async).
+            // If the order has already been paid, this is a stale/out-of-order event and must be ignored,
+            // otherwise it would incorrectly flip a completed order back to PAYMENT_FAILED.
+            if ($stripePayment?->getOrder()?->getPaymentStatus() === OrderPaymentStatus::PAYMENT_RECEIVED->name) {
+                $this->logger->info('Ignoring payment_intent.payment_failed event for an order that is already paid', [
+                    'payment_intent' => $paymentIntent->id,
+                    'order_id' => $stripePayment->getOrderId(),
+                ]);
+
+                return;
+            }
 
             $this->stripePaymentUpdateFromPaymentIntentService->updateStripePaymentInfo($paymentIntent, $stripePayment);
 
