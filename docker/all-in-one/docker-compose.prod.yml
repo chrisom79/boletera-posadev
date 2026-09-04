@@ -1,0 +1,37 @@
+services:
+  all-in-one:
+    image: ghcr.io/chrisom79/boletera-posadev:latest
+    container_name: hi-events-prod
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8123:8123"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - hi_events_storage:/app/backend/storage
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: hi-events-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hi-events
+      POSTGRES_USER: hi-events
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: hi-events-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+  hi_events_storage:
