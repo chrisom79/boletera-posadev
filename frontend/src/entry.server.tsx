@@ -10,12 +10,12 @@ import {dynamicActivateLocale} from "./locales.ts";
 import {setSsrQueryClient} from "./utilites/ssrQueryClient.ts";
 
 const getLocale = (req: express.Request): string => {
-    if (req.cookies.locale) {
-        return req.cookies.locale;
-    }
-
-    const acceptLanguage = req.headers['accept-language'];
-    return acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : 'en';
+    // Default to Spanish rather than auto-detecting from the browser's
+    // Accept-Language header: this deployment serves a Spanish-speaking
+    // community, and a visitor with an English-language browser should still
+    // see the site in Spanish by default. The LanguageSwitcher component sets
+    // the "locale" cookie for anyone who explicitly wants a different language.
+    return req.cookies.locale || 'es';
 }
 
 export async function render(params: {

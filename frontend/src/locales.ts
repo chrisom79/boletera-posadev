@@ -66,6 +66,13 @@ export const getLocaleName = (locale: SupportedLocales) => {
 }
 
 export const getClientLocale = () => {
+    // Default to Spanish rather than auto-detecting from the browser's language:
+    // this deployment serves a Spanish-speaking community, and a visitor with an
+    // English-language browser should still see the site in Spanish by default.
+    // The LanguageSwitcher component sets the "locale" cookie for anyone who
+    // explicitly wants a different language, which always takes priority.
+    // Must match the default in entry.server.tsx's getLocale() so client-side
+    // hydration doesn't mismatch the server-rendered locale.
     if (typeof window !== "undefined") {
         const storedLocale = document
             .cookie
@@ -77,10 +84,10 @@ export const getClientLocale = () => {
             return getSupportedLocale(storedLocale);
         }
 
-        return getSupportedLocale(window.navigator.language);
+        return "es";
     }
 
-    return "en";
+    return "es";
 };
 
 export async function dynamicActivateLocale(locale: string) {
