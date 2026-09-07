@@ -571,6 +571,6 @@ $router->prefix('/public')->group(
 $router->get(
     '/events/{eventId}/questions/answers/export/download/{jobUuid}',
     DownloadQuestionAnswersExportAction::class
-)->middleware('signed')->name('questions.answers.export.download');
+)->middleware('signed:relative')->name('questions.answers.export.download');
 
 include_once __DIR__ . '/mail.php';
