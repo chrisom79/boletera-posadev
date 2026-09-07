@@ -6,6 +6,7 @@ import countries from "../../../../data/countries.json";
 import {InputGroup} from "../InputGroup";
 import classes from "./CheckoutQuestion.module.scss";
 import {UserGeneratedContent} from "../UserGeneratedContent";
+import {findOtherOption} from "../../../utilites/questionHelper.ts";
 
 interface CheckoutQuestionProps {
     questions: Question[],
@@ -93,54 +94,82 @@ const SingleLineTextInput = ({question, name, form}: QuestionInputProps) => {
 }
 
 const RadioInput = ({question, name, form}: QuestionInputProps) => {
+    const otherOption = findOtherOption(question.options);
+    const currentAnswer = form.getInputProps(`${name}.answer`).value;
+    const isOtherSelected = !!otherOption && currentAnswer === otherOption;
+
     return (
-        <Radio.Group
-            classNames={{
-                description: classes.descriptionWithNoStyle,
-            }}
-            withAsterisk={question.required}
-            {...form.getInputProps(`${name}.answer`)}
-            label={question.title}
-            description={(<UserGeneratedContent dangerouslySetInnerHTML={{__html: question.description || ''}}/>)}
-        >
-            <Group mt="xs">
-                {question.options?.map((option, index) => {
-                    return (
-                        <Radio
-                            key={`${question.id}-radio-${index}`}
-                            label={option}
-                            value={option}
-                        />
-                    )
-                })}
-            </Group>
-        </Radio.Group>
+        <>
+            <Radio.Group
+                classNames={{
+                    description: classes.descriptionWithNoStyle,
+                }}
+                withAsterisk={question.required}
+                {...form.getInputProps(`${name}.answer`)}
+                label={question.title}
+                description={(<UserGeneratedContent dangerouslySetInnerHTML={{__html: question.description || ''}}/>)}
+            >
+                <Group mt="xs">
+                    {question.options?.map((option, index) => {
+                        return (
+                            <Radio
+                                key={`${question.id}-radio-${index}`}
+                                label={option}
+                                value={option}
+                            />
+                        )
+                    })}
+                </Group>
+            </Radio.Group>
+            {isOtherSelected && (
+                <TextInput
+                    mt={8}
+                    withAsterisk={question.required}
+                    placeholder={t`Please specify`}
+                    {...form.getInputProps(`${name}.other_text`)}
+                />
+            )}
+        </>
     )
 }
 
 const CheckBoxInput = ({question, name, form}: QuestionInputProps) => {
+    const otherOption = findOtherOption(question.options);
+    const currentAnswers: string[] = form.getInputProps(`${name}.answer`).value || [];
+    const isOtherSelected = !!otherOption && currentAnswers.includes(otherOption);
+
     return (
-        <Checkbox.Group
-            classNames={{
-                description: classes.descriptionWithNoStyle,
-            }}
-            withAsterisk={question.required}
-            {...form.getInputProps(`${name}.answer`)}
-            label={question.title}
-            description={(<UserGeneratedContent dangerouslySetInnerHTML={{__html: question.description || ''}}/>)}
-        >
-            <Group mt="xs">
-                {question.options?.map((option, index) => {
-                    return (
-                        <Checkbox
-                            key={`${question.id}-checkbox-${index}`}
-                            label={option}
-                            value={option}
-                        />
-                    )
-                })}
-            </Group>
-        </Checkbox.Group>
+        <>
+            <Checkbox.Group
+                classNames={{
+                    description: classes.descriptionWithNoStyle,
+                }}
+                withAsterisk={question.required}
+                {...form.getInputProps(`${name}.answer`)}
+                label={question.title}
+                description={(<UserGeneratedContent dangerouslySetInnerHTML={{__html: question.description || ''}}/>)}
+            >
+                <Group mt="xs">
+                    {question.options?.map((option, index) => {
+                        return (
+                            <Checkbox
+                                key={`${question.id}-checkbox-${index}`}
+                                label={option}
+                                value={option}
+                            />
+                        )
+                    })}
+                </Group>
+            </Checkbox.Group>
+            {isOtherSelected && (
+                <TextInput
+                    mt={8}
+                    withAsterisk={question.required}
+                    placeholder={t`Please specify`}
+                    {...form.getInputProps(`${name}.other_text`)}
+                />
+            )}
+        </>
     );
 }
 

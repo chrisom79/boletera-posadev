@@ -34,6 +34,7 @@ import classes from "./CollectInformation.module.scss";
 import {trackEvent, AnalyticsEvents} from "../../../../utilites/analytics.ts";
 import {clearWaitlistJoinedForEvent} from "../../../../hooks/useWaitlistJoined.ts";
 import {useCheckoutPrefill, CheckoutPrefill} from "../../../../hooks/useCheckoutPrefill.ts";
+import {mergeOtherAnswerIntoResponse} from "../../../../utilites/questionHelper.ts";
 
 const LoadingSkeleton = () =>
     (
@@ -295,7 +296,28 @@ export const CollectInformation = () => {
     }
 
     const handleSubmit = (values: any) => {
-        mutation.mutate(values);
+        // Merge any "please specify" free text (collected when an "other" radio/
+        // checkbox option was selected) into the answer itself before submitting,
+        // since that's the shape the backend expects and stores.
+        const transformedValues = {
+            ...values,
+            order: {
+                ...values.order,
+                questions: values.order?.questions?.map((question: any) => ({
+                    ...question,
+                    response: mergeOtherAnswerIntoResponse(question.response ?? {}),
+                })),
+            },
+            products: values.products?.map((product: any) => ({
+                ...product,
+                questions: product.questions?.map((question: any) => ({
+                    ...question,
+                    response: mergeOtherAnswerIntoResponse(question.response ?? {}),
+                })),
+            })),
+        };
+
+        mutation.mutate(transformedValues);
     };
 
     useEffect(() => {
