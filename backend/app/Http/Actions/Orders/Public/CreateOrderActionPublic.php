@@ -11,7 +11,6 @@ use HiEvents\Resources\Order\OrderResourcePublic;
 use HiEvents\Services\Application\Handlers\Order\CreateOrderHandler;
 use HiEvents\Services\Application\Handlers\Order\DTO\CreateOrderPublicDTO;
 use HiEvents\Services\Application\Handlers\Order\DTO\ProductOrderDetailsDTO;
-use HiEvents\Services\Application\Locale\LocaleService;
 use HiEvents\Services\Domain\Order\OrderCreateRequestValidationService;
 use HiEvents\Services\Infrastructure\Session\CheckoutSessionManagementService;
 use Illuminate\Http\JsonResponse;
@@ -23,8 +22,6 @@ class CreateOrderActionPublic extends BaseAction
         private readonly CreateOrderHandler                  $orderHandler,
         private readonly OrderCreateRequestValidationService $orderCreateRequestValidationService,
         private readonly CheckoutSessionManagementService    $sessionIdentifierService,
-        private readonly LocaleService                        $localeService,
-
     )
     {
     }
@@ -45,7 +42,11 @@ class CreateOrderActionPublic extends BaseAction
                 'affiliate_code' => $request->input('affiliate_code'),
                 'products' => ProductOrderDetailsDTO::collectionFromArray($request->input('products')),
                 'session_identifier' => $sessionId,
-                'order_locale' => $this->localeService->getLocaleOrDefault($request->getPreferredLanguage()),
+                // Always use the app's configured locale rather than detecting it from the
+                // buyer's browser (Accept-Language): for a single-language event/community,
+                // a buyer with an English-language browser should still get emails in the
+                // event's language rather than a mismatched auto-detected one.
+                'order_locale' => config('app.locale'),
             ])
         );
 

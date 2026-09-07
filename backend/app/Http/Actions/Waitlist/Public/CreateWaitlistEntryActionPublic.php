@@ -29,7 +29,7 @@ class CreateWaitlistEntryActionPublic extends BaseAction
                 email: $request->validated('email'),
                 first_name: $request->validated('first_name'),
                 last_name: $request->validated('last_name'),
-                locale: $request->input('locale', 'en'),
+                locale: $request->input('locale', config('app.locale')),
             ));
         } catch (ResourceConflictException $e) {
             return $this->errorResponse(
