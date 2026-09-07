@@ -21,6 +21,12 @@ const LIGHT_PALETTE = {
     textSecondary: '#2a2a2a',
     textTertiary: '#2a2a2a',
     border: '#0a0a0a',
+    // textPrimary/Secondary/Tertiary above are for text on the cream "surface"
+    // (cards) and stay dark. Text rendered directly on the dark green
+    // "background" (e.g. page headings outside any card) needs light text
+    // instead, or it's unreadable against it.
+    pageTextPrimary: '#ffffff',
+    pageTextSecondary: '#e5e5e5',
 };
 
 const DARK_PALETTE = {
@@ -30,6 +36,9 @@ const DARK_PALETTE = {
     textSecondary: '#a3a3a3',
     textTertiary: '#737373',
     border: '#333333',
+    // Background is already near-black here, so page text matches textPrimary/Secondary.
+    pageTextPrimary: '#ffffff',
+    pageTextSecondary: '#a3a3a3',
 };
 
 /**
@@ -164,6 +173,8 @@ function createCSSVariablesResolver(accentColor: string, mode: 'light' | 'dark')
                 '--checkout-text-secondary': palette.textSecondary,
                 '--checkout-text-tertiary': palette.textTertiary,
                 '--checkout-border': palette.border,
+                '--checkout-page-text-primary': palette.pageTextPrimary,
+                '--checkout-page-text-secondary': palette.pageTextSecondary,
 
                 // Override global --hi-text (set to accent in global.scss) and
                 // Mantine's default text color to use fixed palette instead

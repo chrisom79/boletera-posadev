@@ -49,27 +49,30 @@ $font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
   }
 }
 
+// These sit directly on the page's --checkout-background (dark green in the
+// Posadev theme), not on a card's cream --checkout-surface, so they need the
+// "page text" variables rather than the card-oriented --checkout-text-* ones.
 .welcomeMessage {
   font-family: $font-display;
   font-size: 24px;
   font-weight: 600;
-  color: var(--checkout-text-primary, #111827);
+  color: var(--checkout-page-text-primary, #111827);
   margin-bottom: 4px;
 }
 
 .confirmationText {
   font-size: 15px;
-  color: var(--checkout-text-secondary, #6B7280);
+  color: var(--checkout-page-text-secondary, #6B7280);
 
   strong {
     font-weight: 500;
-    color: var(--checkout-text-primary, #374151);
+    color: var(--checkout-page-text-primary, #374151);
   }
 }
 
 .selfServiceHint {
   font-size: 13px;
-  color: var(--checkout-text-tertiary, #9CA3AF);
+  color: var(--checkout-page-text-secondary, #9CA3AF);
   margin-top: 4px;
 }
 
@@ -79,7 +82,7 @@ $font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
   font-weight: 600;
   margin-top: 24px;
   margin-bottom: 5px;
-  color: var(--checkout-text-primary, #111827);
+  color: var(--checkout-page-text-primary, #111827);
 }
 
 .detailItem {

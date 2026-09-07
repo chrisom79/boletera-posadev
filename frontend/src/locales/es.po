@@ -4206,7 +4206,7 @@ msgstr "Gestión de invitados"
 
 #: src/components/routes/product-widget/OrderSummaryAndProducts/index.tsx:617
 msgid "Guests"
-msgstr "Huéspedes"
+msgstr "Asistentes"
 
 #: src/components/routes/product-widget/SelectProducts/index.tsx:559
 msgid "Have a promo code?"
