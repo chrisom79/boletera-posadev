@@ -9,7 +9,10 @@ return [
 
     'reset_password_token_expiry_in_min' => 15,
     'frontend_url' => env('APP_FRONTEND_URL', 'http://localhost'),
-    'api_url' => env('APP_URL', 'https://localhost:8443'),
+    // Falls back to frontend_url + /api rather than a hardcoded placeholder: this
+    // deployment (like most self-hosted setups) serves the API from the same
+    // domain as the frontend under an /api prefix, and never sets APP_URL.
+    'api_url' => env('APP_URL', rtrim(env('APP_FRONTEND_URL', 'http://localhost'), '/') . '/api'),
     'cnd_url' => env('APP_CDN_URL', '/storage'),
     'default_timezone' => 'America/Vancouver',
     'default_currency_code' => 'USD',

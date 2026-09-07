@@ -34,7 +34,12 @@ class ExportQuestionAnswersAction extends BaseAction
     {
         $filePath = "event_$eventId/answers-$jobUuid.xlsx";
 
-        $jobStatus = $this->jobPollingService->checkJobStatus($jobUuid, $filePath);
+        $jobStatus = $this->jobPollingService->checkJobStatus(
+            jobUuid: $jobUuid,
+            filePath: $filePath,
+            downloadRoute: 'questions.answers.export.download',
+            downloadRouteParams: ['eventId' => $eventId, 'jobUuid' => $jobUuid],
+        );
 
         return $this->jsonResponse([
             'message' => $jobStatus->message,

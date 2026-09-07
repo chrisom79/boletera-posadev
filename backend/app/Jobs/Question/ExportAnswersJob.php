@@ -29,7 +29,7 @@ class ExportAnswersJob implements ShouldQueue
         Excel::store(
             export: $export->withData($questions),
             filePath: "event_$this->eventId/answers-$this->batchId.xlsx",
-            disk: 's3-private'
+            disk: config('filesystems.private'),
         );
     }
 }
