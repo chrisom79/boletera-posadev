@@ -11,7 +11,7 @@ import {
     TextInput,
     Tooltip
 } from "@mantine/core";
-import {IconArrowRight, IconCheck, IconCircleCheck, IconClock} from "@tabler/icons-react";
+import {IconArrowRight, IconCheck, IconCircleCheck, IconClock, IconInfoCircle} from "@tabler/icons-react";
 import {t, Trans} from "@lingui/macro";
 import {useForm} from "@mantine/form";
 import {notifications} from "@mantine/notifications";
@@ -489,6 +489,11 @@ export const CollectInformation = () => {
                             {...form.getInputProps("order.email_confirmation")}
                         />
                     </InputGroup>
+
+                    <p className={classes.emailHint}>
+                        <IconInfoCircle size={14}/>
+                        {t`Please make sure your email address is typed correctly — your tickets will be sent there.`}
+                    </p>
 
                     {orderRequiresAttendeeDetails && !isPerOrderCollection && totalTicketAttendees > 0 && !lock && (
                         <div className={classes.copyDetailsSection}>

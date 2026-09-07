@@ -43,18 +43,34 @@ $transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: 1.5;
 }
 
+// These two sit directly on the page's --checkout-background (dark green in
+// the Posadev theme), not inside a Card's cream --checkout-surface, so they
+// need the "page text" variables rather than the card-oriented ones below.
 .sectionHeading {
   font-family: $font-display;
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 8px;
-  color: var(--checkout-text-primary, #111827);
+  color: var(--checkout-page-text-primary, #111827);
 }
 
 .sectionHelper {
   font-size: 14px;
-  color: var(--checkout-text-secondary, #6B7280);
+  color: var(--checkout-page-text-secondary, #6B7280);
   margin-bottom: 20px;
+}
+
+.emailHint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--checkout-text-secondary, #6B7280);
+  margin: 10px 0 0;
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .copyDetailsSection {
@@ -78,6 +94,7 @@ $transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 24px;
 }
 
+// Also directly on the page background, not inside a Card.
 .ticketTypeHeader {
   display: flex;
   align-items: center;
@@ -90,7 +107,7 @@ $transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--checkout-text-primary, #111827);
+    color: var(--checkout-page-text-primary, #111827);
   }
 }
 
@@ -183,11 +200,12 @@ $transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+// Also directly on the page background, not inside a Card.
 .tosNotice {
   text-align: center;
   margin-top: 12px;
   font-size: 12px;
-  color: var(--checkout-text-secondary, #6B7280);
+  color: var(--checkout-page-text-secondary, #6B7280);
 
   a {
     color: var(--checkout-accent, var(--mantine-primary-color-filled));
