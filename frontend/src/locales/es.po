@@ -7650,7 +7650,7 @@ msgstr "Seleccione el nivel de mensajería para esta cuenta. Esto controla los l
 
 #: src/components/modals/CreateAttendeeModal/index.tsx:161
 msgid "Select Ticket"
-msgstr "Seleccionar billete"
+msgstr "Seleccionar boleto"
 
 #: src/components/forms/CheckInListForm/index.tsx:43
 #: src/components/modals/SendMessageModal/index.tsx:311
@@ -7724,7 +7724,7 @@ msgstr "Enviar ahora"
 
 #: src/components/modals/CreateAttendeeModal/index.tsx:203
 msgid "Send order confirmation and ticket email"
-msgstr "Enviar confirmación del pedido y correo electrónico del billete."
+msgstr "Enviar confirmación del pedido y correo electrónico del boleto."
 
 #: src/components/routes/event/Webhooks/index.tsx:30
 msgid "Send real-time order and attendee data to your external systems."
@@ -10437,7 +10437,7 @@ msgstr "Tu cuenta de Stripe está conectada y lista para procesar pagos."
 
 #: src/components/routes/product-widget/AttendeeProductAndInformation/index.tsx:47
 msgid "Your ticket for"
-msgstr "Tu billete para"
+msgstr "Tu boleto para"
 
 #: src/components/routes/product-widget/CollectInformation/index.tsx:349
 msgid "Your tickets have been confirmed."
