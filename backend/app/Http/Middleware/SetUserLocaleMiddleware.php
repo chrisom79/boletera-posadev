@@ -29,11 +29,15 @@ class SetUserLocaleMiddleware
             return;
         }
 
-        if ($this->setLocaleFromUser()) {
-            return;
-        }
-
-        $this->setLocaleFromAcceptLanguage($request);
+        // Falling back to Accept-Language here used to also silently override
+        // config('app.locale') for the rest of the request (App::setLocale()
+        // writes back into the config repository), which defeated every
+        // "always use config('app.locale')" fix elsewhere (e.g. order/waitlist
+        // locale) for any real browser, since browsers always send this
+        // header. This deployment forces a single language for everyone
+        // unless they explicitly picked one (cookie) or have an account
+        // preference (below), so no Accept-Language-based fallback here.
+        $this->setLocaleFromUser();
     }
 
     protected function setLocaleFromCookie(Request $request): bool
@@ -52,16 +56,6 @@ class SetUserLocaleMiddleware
             /** @var UserDomainObject $user */
             $user = UserDomainObject::hydrateFromModel(Auth::user());
             App::setLocale($user->getLocale());
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function setLocaleFromAcceptLanguage(Request $request): bool
-    {
-        if ($request->hasHeader('Accept-Language')) {
-            App::setLocale($this->localeService->getLocaleOrDefault($request->getPreferredLanguage()));
             return true;
         }
 
